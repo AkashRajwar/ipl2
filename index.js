@@ -10,6 +10,7 @@ const topEconomicalBowlerOfEachYear = require("./ipl/topEconomicalBowlerOfEachYe
 const MATCHES_FILE_PATH = "./csv_data/matches.csv";
 const DELIVERY_FILE_PATH = "./csv_data/deliveries.csv";
 const JSON_OUTPUT_FILE_PATH = "./public/data.json";
+const JSON_OUTPUT_FILE_PATH_2 = "./economicalBowler.json";
 
 function main() {
   csv()
@@ -25,12 +26,13 @@ function main() {
       let result5 = top9PlayerOfTheMatch(matches);
       let result6 = top15TossWinnerTeam(matches);
       let result7 = topEconomicalBowlerOfEachYear(matches, deliveries);
-      saveMatchesPlayedPerYear(result, result2, result3, result4, result5, result6, result7);
+      saveMatchesPlayedPerYear(result, result2, result3, result4, result5, result6);
+      saveTopEconomicalBowlerPerYear(result7);
     });
   });
 }
 
-function saveMatchesPlayedPerYear(result, result2, result3, result4, result5, result6, result7) {
+function saveMatchesPlayedPerYear(result, result2, result3, result4, result5, result6) {
   const jsonData = {
     matchesPlayedPerYear: result,
     matchesWonEachTeam: result2,
@@ -38,7 +40,6 @@ function saveMatchesPlayedPerYear(result, result2, result3, result4, result5, re
     top10economyBowlerOf2015: result4,
     top9PlayerOfTheMatch: result5,
     top15TossWinnerTeam: result6,
-    topEconomicalBowlerOfEachYear: result7
   };
 
   const jsonString = JSON.stringify(jsonData);
@@ -48,5 +49,18 @@ function saveMatchesPlayedPerYear(result, result2, result3, result4, result5, re
     }
   });
 }
+
+function saveTopEconomicalBowlerPerYear(result7){
+  const jsonData2 ={
+    topEconomicalBowlerOfEachYear: result7
+  };
+
+  const jsonString = JSON.stringify(jsonData2);
+    fs.writeFile(JSON_OUTPUT_FILE_PATH_2, jsonString, "utf8", err =>{
+      if(err){
+        console.error(err);
+      }
+    });
+  }
 
 main();

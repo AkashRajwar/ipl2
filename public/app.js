@@ -1,3 +1,5 @@
+
+
 function fetchAndVisualizeData() {
   fetch("./data.json")
     .then(r => r.json())
@@ -13,7 +15,6 @@ function visualizeData(data) {
   visualiseTop9PlayerOfTheMatch(data.top9PlayerOfTheMatch);
   visualiseTop15TossWinnersTeam(data.top15TossWinnerTeam);
   visualizeMatcheWonByEachTeam(data.matchesWonEachTeam);
-  visualiseTopEconomicalBowlerEachYear(data.topEconomicalBowlerOfEachYear);
   return;
 }
 
@@ -263,19 +264,16 @@ function visualizeMatcheWonByEachTeam(matchesWonEachTeam)
 });
 }
 
-function myFunction() {
-  var x = document.getElementById("year").value;
+function myFunction(){
+  var y=document.getElementById("demo").value;
 
-  function fetchAndVisualizeData() {
-    fetch("./data.json")
-      .then(r => r.json())
+  fetch("/economy?year="+y)
+      .then(res => res.json())
       .then(visualizeData);
-  }
   
-  fetchAndVisualizeData();
   
   function visualizeData(data) {
-    visualiseTopEconomicalBowlerEachYear(data.topEconomicalBowlerOfEachYear[x]);
+    visualiseTopEconomicalBowlerEachYear(data);
     return;
   }
 
@@ -313,6 +311,53 @@ function myFunction() {
       ]
     });
   }
-  
-  
+
 }
+
+/*function myFunction() {
+  var x = document.getElementById("demo").nodeValue;
+    fetch("/economy?season=" + x)
+      .then(r => r.json())
+      .then(visualizeData);
+  
+  
+  function visualizeData(data) {
+    visualiseTopEconomicalBowlerEachYear(data);
+    return;
+  }
+
+  function visualiseTopEconomicalBowlerEachYear(topEconomicalBowlerOfEachYear) {
+    const seriesData7 = [];
+    for (let year in topEconomicalBowlerOfEachYear) {
+      seriesData7.push([year, topEconomicalBowlerOfEachYear[year]]);
+    }
+  
+    Highcharts.chart("top-economical-bowler", {
+      chart: {
+        type: "column"
+      },
+      title: {
+        text: "Top Economical Bowler Of Given Year"
+      },
+      subtitle: {
+        text:
+          'Source: <a href="https://www.kaggle.com/nowke9/ipldata/data">IPL Dataset</a>'
+      },
+      xAxis: {
+        type: "category"
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: "Economy"
+        }
+      },
+      series: [
+        {
+          name: "Bowlers",
+          data: seriesData7
+        }
+      ]
+    });
+  } 
+}*/
